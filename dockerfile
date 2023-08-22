@@ -2,7 +2,8 @@ FROM ubuntu:20.04
 
 RUN apt-get update && apt-get install -y openvpn iputils-ping net-tools dnsutils
 
-COPY oosaka-user-03.ovpn /tmp/
+COPY tokyo-key-file-002.pem /tmp/
+RUN chmod 600 tmp/tokyo-key-file-002.pem
 
 # Shift timezone to Asia/Tokyo.
 ENV TZ Asia/Tokyo
