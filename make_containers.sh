@@ -15,7 +15,7 @@ create_docker_container()
       # コンテナー作成(バックグラウンドで起動)
       docker run -d --device=/dev/net/tun --cap-add=NET_ADMIN --name $TEMP_USER_NAME vpn-client-img-base sleep infinity
       # 認証ファイルのコピー
-      docker cp $TEMP_USER_NAME.ovpn $TEMP_USER_NAME:/tmp/$TEMP_USER_NAME.ovpn
+      docker cp /home/ubuntu/vpn-client-img/vpn_keys/$TEMP_USER_NAME.ovpn $TEMP_USER_NAME:/tmp/$TEMP_USER_NAME.ovpn
 
 done
 }
