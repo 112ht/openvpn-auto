@@ -18,7 +18,7 @@ create_openvpn_user()
       export PASS="1"
       ./openvpn-install.sh
 #ファイル転送
-#aws s3 cp /home/ec2-user/$CLIENT.ovpn  s3://poc-chikuseki-cloud-s3-for-kk-eds-test-live-01/
+aws s3 cp /home/ec2-user/$CLIENT.ovpn  s3://kk3-openvpn-work/
 
 done
 }
