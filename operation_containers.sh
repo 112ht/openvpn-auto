@@ -4,6 +4,8 @@ USER_NAME_START_STR="t-u-"
 USER_START_INDEX=1
 #ユーザー名終了index
 USER_END_INDEX=3
+#認証ファイルベースパス
+OVPN_FILE_BASE_DIR=/home/ubuntu/vpn-client-img/vpn_keys/
 
 #コンテナー作成
 create_docker_container()
@@ -15,7 +17,7 @@ create_docker_container()
       # コンテナー作成(バックグラウンドで起動)
       docker run -d --device=/dev/net/tun --cap-add=NET_ADMIN --name $TEMP_USER_NAME vpn-client-img-base sleep infinity
       # 認証ファイルのコピー
-      docker cp $TEMP_USER_NAME.ovpn $TEMP_USER_NAME:/tmp/$TEMP_USER_NAME.ovpn
+      docker cp $OVPN_FILE_BASE_DIR$TEMP_USER_NAME.ovpn $TEMP_USER_NAME:/tmp/$TEMP_USER_NAME.ovpn
 
 done
 }
