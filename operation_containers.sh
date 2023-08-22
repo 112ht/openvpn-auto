@@ -58,6 +58,19 @@ reboot_docker_container()
 
 done
 }
+# コンテナー再起動
+rm_docker_container()
+{
+  for i in `seq -f '%04g' $USER_START_INDEX $USER_END_INDEX`
+  do
+      export TEMP_USER_NAME=$USER_NAME_START_STR$i
+      echo "container削除:"$TEMP_USER_NAME
+      # 削除
+      docker stop  $TEMP_USER_NAME
+      docker rm  $TEMP_USER_NAME
+
+done
+}
 # コンテナーVPN接続
 con_vpn_docker_container()
 {
@@ -95,9 +108,13 @@ case "$1" in
     con_vpn_docker_container)
         con_vpn_docker_container
         ;;
+    rm_docker_container)
+        rm_docker_container
+        ;;
+        
     *)
         echo "引数不正"
         exit 1
         ;;
 esac
-echo "openvpn接続用container操作成終了"
+echo "openvpn接続用container操作正常終了"
