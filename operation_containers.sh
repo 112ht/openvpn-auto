@@ -15,7 +15,7 @@ SSH_USER_ID=ec2-user
 #転送先IP
 SSH_SEND_IP=10.0.25.240
 #転送先パス
-SSH_SEND_PATH=/tmp/test_sed
+SSH_SEND_PATH=/tmp/test_sed/
 
 #コンテナー作成
 create_docker_container()
@@ -35,15 +35,15 @@ done
 # コンテナー起動
 start_docker_container()
 {
-    docker start $(docker ps -a -q)
-#   for i in `seq -f '%04g' $USER_START_INDEX $USER_END_INDEX`
-#   do
-#       export TEMP_USER_NAME=$USER_NAME_START_STR$i
-#       echo "container起動:"$TEMP_USER_NAME
-#       # 起動
-#       docker start $TEMP_USER_NAME
+#    docker start $(docker ps -a -q)
+   for i in `seq -f '%04g' $USER_START_INDEX $USER_END_INDEX`
+   do
+       export TEMP_USER_NAME=$USER_NAME_START_STR$i
+       echo "container起動:"$TEMP_USER_NAME
+       # 起動
+       docker start $TEMP_USER_NAME
 
-# done
+ done
 }
 
 # コンテナー停止
@@ -63,31 +63,30 @@ stop_docker_container()
 # コンテナー再起動
 reboot_docker_container()
 {
-    docker start $(docker ps -a -q)
-    docker stop $(docker ps -q)
-#   for i in `seq -f '%04g' $USER_START_INDEX $USER_END_INDEX`
-#   do
-#       export TEMP_USER_NAME=$USER_NAME_START_STR$i
-#       echo "container再起動:"$TEMP_USER_NAME
-#       # 再起動
-#       docker restart $TEMP_USER_NAME
-
-# done
+   # docker start $(docker ps -a -q)
+   # docker stop $(docker ps -q)
+   for i in `seq -f '%04g' $USER_START_INDEX $USER_END_INDEX`
+   do
+       export TEMP_USER_NAME=$USER_NAME_START_STR$i
+       echo "container再起動:"$TEMP_USER_NAME
+       # 再起動
+       docker restart $TEMP_USER_NAME
+ done
 }
 
 # コンテナー削除
 rm_docker_container()
 {
-    docker rm $(docker ps -aq)
-#   for i in `seq -f '%04g' $USER_START_INDEX $USER_END_INDEX`
-#   do
-#       export TEMP_USER_NAME=$USER_NAME_START_STR$i
-#       echo "container削除:"$TEMP_USER_NAME
-#       # 削除
-#       docker stop  $TEMP_USER_NAME
-#       docker rm  $TEMP_USER_NAME
+#    docker rm $(docker ps -aq)
+   for i in `seq -f '%04g' $USER_START_INDEX $USER_END_INDEX`
+   do
+       export TEMP_USER_NAME=$USER_NAME_START_STR$i
+       echo "container削除:"$TEMP_USER_NAME
+       # 削除
+       docker stop  $TEMP_USER_NAME
+       docker rm  $TEMP_USER_NAME
 
-# done
+ done
 }
 
 # コンテナーVPN接続
@@ -111,7 +110,7 @@ edit_testfile_docker_container()
       export TEMP_USER_NAME=$USER_NAME_START_STR$i
       echo "containerランダムテストファイル作成:"$TEMP_USER_NAME
       # ランダムテストファイル作成
-      docker exec $TEMP_USER_NAME sh -c "base64 /dev/urandom | head -c $RANDOM_TEST_FILE_SIZE > /tmp/"${TEMP_USER_NAME}"-testfile-"${$RANDOM_TEST_FILE_SIZE}" &"
+      docker exec $TEMP_USER_NAME sh -c "base64 /dev/urandom | head -c $RANDOM_TEST_FILE_SIZE > /tmp/${TEMP_USER_NAME}-testfile-${RANDOM_TEST_FILE_SIZE} &"
 
 done
 }
@@ -124,7 +123,9 @@ send_testfile_docker_container()
       export TEMP_USER_NAME=$USER_NAME_START_STR$i
       echo "containerテストファイル送信:"$TEMP_USER_NAME
       # ランダムテストファイル送信
-      docker exec $TEMP_USER_NAME sh -c "scp -i $SSH_KEY_FILE_PATH /tmp/"${TEMP_USER_NAME}"-testfile-"${$RANDOM_TEST_FILE_SIZE}" $SSH_USER_ID@$SSH_SEND_IP:$SSH_SEND_PATH/"${TEMP_USER_NAME}"-testfile-"${$RANDOM_TEST_FILE_SIZE}" &"
+      #TODO
+      #echo "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -i $SSH_KEY_FILE_PATH /tmp/${TEMP_USER_NAME}-testfile-${RANDOM_TEST_FILE_SIZE} ${SSH_USER_ID}@${SSH_SEND_IP}:${SSH_SEND_PATH} "
+      docker exec $TEMP_USER_NAME sh -c "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -i $SSH_KEY_FILE_PATH /tmp/${TEMP_USER_NAME}-testfile-${RANDOM_TEST_FILE_SIZE} ${SSH_USER_ID}@${SSH_SEND_IP}:${SSH_SEND_PATH} &"
 
 done
 }
