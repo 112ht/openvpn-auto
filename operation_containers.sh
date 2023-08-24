@@ -25,54 +25,61 @@ done
 # コンテナー起動
 start_docker_container()
 {
-  for i in `seq -f '%04g' $USER_START_INDEX $USER_END_INDEX`
-  do
-      export TEMP_USER_NAME=$USER_NAME_START_STR$i
-      echo "container起動:"$TEMP_USER_NAME
-      # 起動
-      docker start $TEMP_USER_NAME
+    docker start $(docker ps -a -q)
+#   for i in `seq -f '%04g' $USER_START_INDEX $USER_END_INDEX`
+#   do
+#       export TEMP_USER_NAME=$USER_NAME_START_STR$i
+#       echo "container起動:"$TEMP_USER_NAME
+#       # 起動
+#       docker start $TEMP_USER_NAME
 
-done
+# done
 }
 
 # コンテナー停止
 stop_docker_container()
 {
-  for i in `seq -f '%04g' $USER_START_INDEX $USER_END_INDEX`
-  do
-      export TEMP_USER_NAME=$USER_NAME_START_STR$i
-      echo "container停止:"$TEMP_USER_NAME
-      # コンテナーstop
-      docker stop $TEMP_USER_NAME
+    docker stop $(docker ps -q)
+#   for i in `seq -f '%04g' $USER_START_INDEX $USER_END_INDEX`
+#   do
+#       export TEMP_USER_NAME=$USER_NAME_START_STR$i
+#       echo "container停止:"$TEMP_USER_NAME
+#       # コンテナーstop
+#       docker stop $TEMP_USER_NAME
 
-done
+# done
 }
 
 # コンテナー再起動
 reboot_docker_container()
 {
-  for i in `seq -f '%04g' $USER_START_INDEX $USER_END_INDEX`
-  do
-      export TEMP_USER_NAME=$USER_NAME_START_STR$i
-      echo "container再起動:"$TEMP_USER_NAME
-      # 再起動
-      docker restart $TEMP_USER_NAME
+    docker start $(docker ps -a -q)
+    docker stop $(docker ps -q)
+#   for i in `seq -f '%04g' $USER_START_INDEX $USER_END_INDEX`
+#   do
+#       export TEMP_USER_NAME=$USER_NAME_START_STR$i
+#       echo "container再起動:"$TEMP_USER_NAME
+#       # 再起動
+#       docker restart $TEMP_USER_NAME
 
-done
+# done
 }
-# コンテナー再起動
+
+# コンテナー削除
 rm_docker_container()
 {
-  for i in `seq -f '%04g' $USER_START_INDEX $USER_END_INDEX`
-  do
-      export TEMP_USER_NAME=$USER_NAME_START_STR$i
-      echo "container削除:"$TEMP_USER_NAME
-      # 削除
-      docker stop  $TEMP_USER_NAME
-      docker rm  $TEMP_USER_NAME
+    docker rm $(docker ps -aq)
+#   for i in `seq -f '%04g' $USER_START_INDEX $USER_END_INDEX`
+#   do
+#       export TEMP_USER_NAME=$USER_NAME_START_STR$i
+#       echo "container削除:"$TEMP_USER_NAME
+#       # 削除
+#       docker stop  $TEMP_USER_NAME
+#       docker rm  $TEMP_USER_NAME
 
-done
+# done
 }
+
 # コンテナーVPN接続
 con_vpn_docker_container()
 {
@@ -119,4 +126,4 @@ case "$1" in
         exit 1
         ;;
 esac
-echo "openvpn接続用container操作正常終了"
+echo "openvpn接続用container操作終了"
