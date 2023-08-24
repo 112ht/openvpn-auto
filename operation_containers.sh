@@ -7,7 +7,7 @@ USER_END_INDEX=3
 #認証ファイルベースパス
 OVPN_FILE_BASE_DIR=/home/ubuntu/vpn-client-img/vpn_keys/
 #転送用テストファイルサイズ
-RANDOM_TEST_FILE_SIZE=1M
+RANDOM_TEST_FILE_SIZE=1K
 #転送用認証ファイルパス
 SSH_KEY_FILE_PATH=/tmp/tokyo-key-file-002.pem
 #転送用認証ユーザー
