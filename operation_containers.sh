@@ -6,6 +6,16 @@ USER_START_INDEX=1
 USER_END_INDEX=3
 #認証ファイルベースパス
 OVPN_FILE_BASE_DIR=/home/ubuntu/vpn-client-img/vpn_keys/
+#転送用テストファイルサイズ
+RANDOM_TEST_FILE_SIZE=1M
+#転送用認証ファイルパス
+SSH_KEY_FILE_PATH=/tmp/tokyo-key-file-002.pem
+#転送用認証ユーザー
+SSH_USER_ID=ec2-user
+#転送先IP
+SSH_SEND_IP=10.0.25.240
+#転送先パス
+SSH_SEND_PATH=/tmp/test_sed
 
 #コンテナー作成
 create_docker_container()
@@ -93,6 +103,32 @@ con_vpn_docker_container()
 done
 }
 
+# テストファイル作成
+edit_testfile_docker_container()
+{
+  for i in `seq -f '%04g' $USER_START_INDEX $USER_END_INDEX`
+  do
+      export TEMP_USER_NAME=$USER_NAME_START_STR$i
+      echo "containerランダムテストファイル作成:"$TEMP_USER_NAME
+      # ランダムテストファイル作成
+      docker exec $TEMP_USER_NAME sh -c "base64 /dev/urandom | head -c $RANDOM_TEST_FILE_SIZE > /tmp/"${TEMP_USER_NAME}"-testfile-"${$RANDOM_TEST_FILE_SIZE}" &"
+
+done
+}
+
+# テストファイル送信
+send_testfile_docker_container()
+{
+  for i in `seq -f '%04g' $USER_START_INDEX $USER_END_INDEX`
+  do
+      export TEMP_USER_NAME=$USER_NAME_START_STR$i
+      echo "containerテストファイル送信:"$TEMP_USER_NAME
+      # ランダムテストファイル送信
+      docker exec $TEMP_USER_NAME sh -c "scp -i $SSH_KEY_FILE_PATH /tmp/"${TEMP_USER_NAME}"-testfile-"${$RANDOM_TEST_FILE_SIZE}" $SSH_USER_ID@$SSH_SEND_IP:$SSH_SEND_PATH/"${TEMP_USER_NAME}"-testfile-"${$RANDOM_TEST_FILE_SIZE}" &"
+
+done
+}
+
 echo "openvpn接続用container操作開始"
 
 # 引数チェック
@@ -119,6 +155,12 @@ case "$1" in
         ;;
     rm_docker_container)
         rm_docker_container
+        ;;
+    edit_testfile_docker_container)
+        edit_testfile_docker_container
+        ;;
+    send_testfile_docker_container)
+        send_testfile_docker_container
         ;;
         
     *)
