@@ -119,13 +119,13 @@ done
 # テストスクリプトダウンロード&コンテナーにコピー
 copy_testscript_docker_container()
 {
-  curl -o  vpn-client-img/test_script.sh https://112ht.github.io/openvpn-auto/test_script.sh
+  curl -o /home/ubuntu/vpn-client-img/test_script.sh https://112ht.github.io/openvpn-auto/test_script.sh
   for i in `seq -f '%04g' $USER_START_INDEX $USER_END_INDEX`
   do
       export TEMP_USER_NAME=$USER_NAME_START_STR$i
       echo "containerにテストスクリプトコピー:"$TEMP_USER_NAME
       # テストスクリプトコピー
-      docker cp test_script.sh $TEMP_USER_NAME:/tmp/test_script.sh
+      docker cp /home/ubuntu/vpn-client-img/test_script.sh $TEMP_USER_NAME:/tmp/test_script.sh
       docker exec $TEMP_USER_NAME chmod 777 /tmp/test_script.sh
 
 done
