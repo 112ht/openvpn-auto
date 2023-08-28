@@ -1,6 +1,6 @@
 FROM ubuntu:20.04
 
-RUN apt-get update && apt-get install -y openvpn iputils-ping net-tools dnsutils openssh-client
+RUN apt-get update && apt-get install -y openvpn iputils-ping net-tools dnsutils openssh-client curl
 
 COPY tokyo-key-file-002.pem /tmp/
 RUN chmod 600 tmp/tokyo-key-file-002.pem
