@@ -109,7 +109,7 @@ stop_vpn_docker_container()
   for i in `seq -f '%04g' $USER_START_INDEX $USER_END_INDEX`
   do
       export TEMP_USER_NAME=$USER_NAME_START_STR$i
-      echo "containerVPN接続切断:"$TEMP_USER_NAME
+      echo "containerVPN切断:"$TEMP_USER_NAME
       # vpn接続切断
       docker exec $TEMP_USER_NAME sh -c "pkill -f '/usr/sbin/openvpn'" &
 
@@ -143,13 +143,13 @@ execute_testfile_docker_container()
 
 done
 }
-# テストスクリプト実行停止する。
+# テストスクリプト停止する。
 stop_testfile_docker_container()
 {
   for i in `seq -f '%04g' $USER_START_INDEX $USER_END_INDEX`
   do
       export TEMP_USER_NAME=$USER_NAME_START_STR$i
-      echo "containerテストスクリプト実行:"$TEMP_USER_NAME
+      echo "containerテストスクリプト停止:"$TEMP_USER_NAME
       #テストスクリプト実行する。
       docker exec $TEMP_USER_NAME sh -c "pkill -f '/bin/sh /tmp/test_script.sh' &" &
 
