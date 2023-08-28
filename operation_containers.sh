@@ -110,7 +110,7 @@ stop_vpn_docker_container()
       export TEMP_USER_NAME=$USER_NAME_START_STR$i
       echo "containerVPN接続切断:"$TEMP_USER_NAME
       # vpn接続切断
-      docker exec $TEMP_USER_NAME sh -c "pkill -f "/usr/sbin/openvpn &" &
+      docker exec $TEMP_USER_NAME sh -c "pkill -f "/usr/sbin/openvpn" &
 
 done
 }
