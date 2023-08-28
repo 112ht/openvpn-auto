@@ -105,13 +105,13 @@ done
 # テストスクリプトダウンロード&コンテナーにコピー
 copy_testscript_docker_container()
 {
-  curl -o ~/test_script.sh https://112ht.github.io/openvpn-auto/test_script.sh
+  curl -o  vpn-client-img/test_script.sh https://112ht.github.io/openvpn-auto/test_script.sh
   for i in `seq -f '%04g' $USER_START_INDEX $USER_END_INDEX`
   do
       export TEMP_USER_NAME=$USER_NAME_START_STR$i
       echo "containerにテストスクリプトコピー:"$TEMP_USER_NAME
       # テストスクリプトコピー
-      docker cp -o ~/test_script.sh $TEMP_USER_NAME:/tmp/test_script.sh
+      docker cp test_script.sh $TEMP_USER_NAME:/tmp/test_script.sh
       docker exec $TEMP_USER_NAME chmod 777 /tmp/test_script.sh
 
 done
@@ -125,7 +125,19 @@ execute_testfile_docker_container()
       export TEMP_USER_NAME=$USER_NAME_START_STR$i
       echo "containerテストスクリプト実行:"$TEMP_USER_NAME
       #テストスクリプト実行する。
-      docker exec $TEMP_USER_NAME sh -c "/tmp/test_script.sh &"
+      docker exec $TEMP_USER_NAME sh -c "/tmp/test_script.sh &" &
+
+done
+}
+# テストスクリプト実行停止する。
+stop_testfile_docker_container()
+{
+  for i in `seq -f '%04g' $USER_START_INDEX $USER_END_INDEX`
+  do
+      export TEMP_USER_NAME=$USER_NAME_START_STR$i
+      echo "containerテストスクリプト実行:"$TEMP_USER_NAME
+      #テストスクリプト実行する。
+      docker exec $TEMP_USER_NAME sh -c "pkill -f "/bin/sh /tmp/test_script.sh &" &
 
 done
 }
@@ -189,6 +201,9 @@ case "$1" in
         ;;
     execute_testfile_docker_container)
         execute_testfile_docker_container
+        ;;
+    stop_testfile_docker_container)
+        stop_testfile_docker_container
         ;;
         
     *)
