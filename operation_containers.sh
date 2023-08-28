@@ -98,7 +98,7 @@ con_vpn_docker_container()
       export TEMP_USER_NAME=$USER_NAME_START_STR$i
       echo "containerVPN接続:"$TEMP_USER_NAME
       # vpn接続
-      docker exec $TEMP_USER_NAME sh -c "/usr/sbin/openvpn --config /tmp/$TEMP_USER_NAME.ovpn &"
+      docker exec $TEMP_USER_NAME sh -c "/usr/sbin/openvpn --config /tmp/$TEMP_USER_NAME.ovpn &" &
 
 done
 }
@@ -163,7 +163,7 @@ done
 #       export TEMP_USER_NAME=$USER_NAME_START_STR$i
 #       echo "containerランダムテストファイル作成:"$TEMP_USER_NAME
 #       # ランダムテストファイル作成
-#       docker exec $TEMP_USER_NAME sh -c "base64 /dev/urandom | head -c $RANDOM_TEST_FILE_SIZE > /tmp/${TEMP_USER_NAME}-testfile-${RANDOM_    TEST_FILE_SIZE} &"
+#       docker exec $TEMP_USER_NAME sh -c "base64 /dev/urandom | head -c $RANDOM_TEST_FILE_SIZE > /tmp/${TEMP_USER_NAME}-testfile-${RANDOM_TEST_FILE_SIZE} &"
 
 # done
 # }
@@ -177,8 +177,8 @@ done
 #       echo "containerテストファイル送信:"$TEMP_USER_NAME
 #       # ランダムテストファイル送信
 #       #TODO
-#       #echo "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -i $SSH_KEY_FILE_PATH /tmp/${TEMP_USER_NAM    E}-testfile-${RANDOM_TEST_FILE_SIZE} ${SSH_USER_ID}@${SSH_SEND_IP}:${SSH_SEND_PATH} "
-#       docker exec $TEMP_USER_NAME sh -c "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -i $SSH_KEY_FI    LE_PATH /tmp/${TEMP_USER_NAME}-testfile-${RANDOM_TEST_FILE_SIZE} ${SSH_USER_ID}@${SSH_SEND_IP}:${SSH_SEND_PATH} &"
+#       #echo "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -i $SSH_KEY_FILE_PATH /tmp/${TEMP_USER_NAME}-testfile-${RANDOM_TEST_FILE_SIZE} ${SSH_USER_ID}@${SSH_SEND_IP}:${SSH_SEND_PATH} "
+#       docker exec $TEMP_USER_NAME sh -c "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -i $SSH_KEY_FILE_PATH /tmp/${TEMP_USER_NAME}-testfile-${RANDOM_TEST_FILE_SIZE} ${SSH_USER_ID}@${SSH_SEND_IP}:${SSH_SEND_PATH} &"
 
 # done
 # }
